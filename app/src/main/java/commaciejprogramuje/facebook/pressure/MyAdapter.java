@@ -33,15 +33,29 @@ class MyAdapter extends RecyclerView.Adapter {
 
 
     private List<SingleMeasurement> measurements = new ArrayList<>();
+    private RecyclerView measurementHistoryRecyclerView;
 
-    MyAdapter(List<SingleMeasurement> measurements) {
+    MyAdapter(List<SingleMeasurement> measurements, RecyclerView measurementHistoryRecyclerView) {
         this.measurements = measurements;
+        this.measurementHistoryRecyclerView = measurementHistoryRecyclerView;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_single_measurement, parent, false);
+
+        //usuwanie po kliknięciu - do zmiany - może z potwierdzeniem?
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int positionToDelete = measurementHistoryRecyclerView.getChildAdapterPosition(v);
+                measurements.remove(positionToDelete);
+                notifyItemRemoved(positionToDelete);
+            }
+        });
+
+
         return new MyViewHolder(view);
     }
 
