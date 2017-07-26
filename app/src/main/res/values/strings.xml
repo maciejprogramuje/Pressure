@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">Pressure</string>
+    <string name="app_name">Blood Pressure Diary</string>
     <string name="show_archive">Show archive</string>
     <string name="time_counting">time counting: %d</string>
     <string name="add">Add</string>
+    <string name="date">date</string>
+    <string name="sys">SYS</string>
+    <string name="dia">DIA</string>
+    <string name="pulse">pulse</string>
 </resources>
