@@ -18,6 +18,9 @@ import java.util.List;
  */
 
 class MyAdapter extends RecyclerView.Adapter {
+    private List<SingleMeasurement> measurements = new ArrayList<>();
+    private RecyclerView measurementHistoryRecyclerView;
+
     //implementacja wzorca ViewHolder
     private class MyViewHolder extends RecyclerView.ViewHolder {
         TextView date;
@@ -34,10 +37,6 @@ class MyAdapter extends RecyclerView.Adapter {
         }
     }
     //koniec implementacji wzorca ViewHolder
-
-
-    private List<SingleMeasurement> measurements = new ArrayList<>();
-    private RecyclerView measurementHistoryRecyclerView;
 
     MyAdapter(List<SingleMeasurement> measurements, RecyclerView measurementHistoryRecyclerView) {
         this.measurements = measurements;

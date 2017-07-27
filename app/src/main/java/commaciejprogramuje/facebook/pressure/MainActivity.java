@@ -47,28 +47,11 @@ public class MainActivity extends AppCompatActivity {
             measurements.add(new SingleMeasurement());
         }
 
-        measurementHistoryRecyclerView.setHasFixedSize(true);
+        //measurementHistoryRecyclerView.setHasFixedSize(true);
         measurementHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         measurementHistoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         myAdapter = new MyAdapter(measurements, measurementHistoryRecyclerView);
         measurementHistoryRecyclerView.setAdapter(myAdapter);
-
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                myAdapter.remove(position);
-            }
-        };
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(measurementHistoryRecyclerView);
-
     }
 
     private void addMeasurement() {
