@@ -1,6 +1,10 @@
 package commaciejprogramuje.facebook.pressure;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,21 +44,37 @@ class MyAdapter extends RecyclerView.Adapter {
         this.measurementHistoryRecyclerView = measurementHistoryRecyclerView;
     }
 
+    private AlertDialog setAlertDialog(final View v) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(v.getContext());
+        alertBuilder.setMessage(R.string.delete_this_line)
+                .setPositiveButton(v.getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        int positionToDelete = measurementHistoryRecyclerView.getChildAdapterPosition(v);
+                        measurements.remove(positionToDelete);
+                        notifyItemRemoved(positionToDelete);
+                    }
+                })
+                .setNegativeButton(v.getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+        return alertBuilder.create();
+    }
+
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_single_measurement, parent, false);
 
-        //usuwanie po kliknięciu - do zmiany - może z potwierdzeniem?
+        //usuwanie po kliknięciu
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int positionToDelete = measurementHistoryRecyclerView.getChildAdapterPosition(v);
-                measurements.remove(positionToDelete);
-                notifyItemRemoved(positionToDelete);
+                setAlertDialog(v).show();
             }
         });
-
 
         return new MyViewHolder(view);
     }
@@ -72,5 +92,10 @@ class MyAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return measurements.size();
+    }
+
+    public void remove(int position) {
+        measurements.remove(position);
+        notifyItemRemoved(position);
     }
 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     @Bind(R.id.measurement_history)
     RecyclerView measurementHistoryRecyclerView;
+
+    MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,25 @@ public class MainActivity extends AppCompatActivity {
         measurementHistoryRecyclerView.setHasFixedSize(true);
         measurementHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         measurementHistoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        measurementHistoryRecyclerView.setAdapter(new MyAdapter(measurements, measurementHistoryRecyclerView));
+        myAdapter = new MyAdapter(measurements, measurementHistoryRecyclerView);
+        measurementHistoryRecyclerView.setAdapter(myAdapter);
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                myAdapter.remove(position);
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(measurementHistoryRecyclerView);
+
     }
 
     private void addMeasurement() {
