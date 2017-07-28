@@ -9,14 +9,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -41,18 +37,17 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addMeasurement();
+                goToMeasurement();
             }
         });
 
-        //measurementHistoryRecyclerView.setHasFixedSize(true);
         measurementHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         measurementHistoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         myAdapter = new MyAdapter(measurementHistoryRecyclerView, PreferenceManager.getDefaultSharedPreferences(this));
         measurementHistoryRecyclerView.setAdapter(myAdapter);
     }
 
-    private void addMeasurement() {
+    private void goToMeasurement() {
         Intent intent = new Intent(MainActivity.this, MeasurementActivity.class);
         startActivityForResult(intent, REQUEST_CODE_ADD);
     }
@@ -83,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_show_archive) {
             return true;
         } else if (id == R.id.action_add) {
-            addMeasurement();
+            goToMeasurement();
             return true;
         }
 

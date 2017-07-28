@@ -2,7 +2,6 @@ package commaciejprogramuje.facebook.pressure;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,14 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -56,10 +52,8 @@ class MyAdapter extends RecyclerView.Adapter {
         this.sharedPreferences = sharedPreferences;
 
         Gson gson = new Gson();
-        String json = sharedPreferences.getString(MEASUREMENTS_J_SON, "");
-
-        Type type = new TypeToken<List<SingleMeasurement>>(){}.getType();
-        measurements = gson.fromJson(json, type);
+        String json = sharedPreferences.getString(MEASUREMENTS_J_SON, "[]");
+        measurements = gson.fromJson(json, new TypeToken<List<SingleMeasurement>>() {}.getType());
 
         notifyDataSetChanged();
     }
@@ -113,7 +107,8 @@ class MyAdapter extends RecyclerView.Adapter {
 
     private void storeInPreferences() {
         Gson gson = new Gson();
-        String json = gson.toJson(measurements, new TypeToken<List<SingleMeasurement>>(){}.getType());
+        String json = gson.toJson(measurements, new TypeToken<List<SingleMeasurement>>() {
+        }.getType());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(MEASUREMENTS_J_SON, json);
         editor.apply();
