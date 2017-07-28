@@ -1,15 +1,26 @@
 package commaciejprogramuje.facebook.pressure;
 
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +29,10 @@ import java.util.List;
  */
 
 class MyAdapter extends RecyclerView.Adapter {
+    private static final String MEASUREMENTS_J_SON = "measurementsJSon";
     private List<SingleMeasurement> measurements = new ArrayList<>();
-    private RecyclerView measurementHistoryRecyclerView;
+    private RecyclerView measurementsRecyclerView;
+    private SharedPreferences sharedPreferences;
 
     //implementacja wzorca ViewHolder
     private class MyViewHolder extends RecyclerView.ViewHolder {
@@ -38,20 +51,56 @@ class MyAdapter extends RecyclerView.Adapter {
     }
     //koniec implementacji wzorca ViewHolder
 
-    MyAdapter(List<SingleMeasurement> measurements, RecyclerView measurementHistoryRecyclerView) {
-        this.measurements = measurements;
-        this.measurementHistoryRecyclerView = measurementHistoryRecyclerView;
+    MyAdapter(RecyclerView measurementsRecyclerView, SharedPreferences sharedPreferences) {
+        this.measurementsRecyclerView = measurementsRecyclerView;
+        this.sharedPreferences = sharedPreferences;
+
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(MEASUREMENTS_J_SON, "");
+
+        Type type = new TypeToken<List<SingleMeasurement>>(){}.getType();
+        measurements = gson.fromJson(json, type);
+
+        notifyDataSetChanged();
     }
 
-    private AlertDialog setAlertDialog(final View v) {
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_single_measurement, parent, false);
+
+        //usuwanie po kliknięciu
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteLineAlertDialog(v).show();
+            }
+        });
+
+        return new MyViewHolder(view);
+    }
+
+    void addNewMeasurement(String pressure1, String pressure2, String pulse) {
+        measurements.add(new SingleMeasurement(getCurrentDate(), pressure1, pressure2, pulse));
+        notifyItemInserted(measurements.size() - 1);
+        storeInPreferences();
+    }
+
+    private String getCurrentDate() {
+        DateTime tempDate = new DateTime();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("d/MM/yyyy, HH:mm");
+        return tempDate.toString(dateTimeFormatter);
+    }
+
+    private AlertDialog deleteLineAlertDialog(final View v) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(v.getContext());
         alertBuilder.setMessage(R.string.delete_this_line)
                 .setPositiveButton(v.getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        int positionToDelete = measurementHistoryRecyclerView.getChildAdapterPosition(v);
+                        int positionToDelete = measurementsRecyclerView.getChildAdapterPosition(v);
                         measurements.remove(positionToDelete);
                         notifyItemRemoved(positionToDelete);
+                        storeInPreferences();
                     }
                 })
                 .setNegativeButton(v.getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -62,20 +111,12 @@ class MyAdapter extends RecyclerView.Adapter {
         return alertBuilder.create();
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_single_measurement, parent, false);
-
-        //usuwanie po kliknięciu
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setAlertDialog(v).show();
-            }
-        });
-
-        return new MyViewHolder(view);
+    private void storeInPreferences() {
+        Gson gson = new Gson();
+        String json = gson.toJson(measurements, new TypeToken<List<SingleMeasurement>>(){}.getType());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MEASUREMENTS_J_SON, json);
+        editor.apply();
     }
 
     @Override
@@ -91,10 +132,5 @@ class MyAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return measurements.size();
-    }
-
-    public void remove(int position) {
-        measurements.remove(position);
-        notifyItemRemoved(position);
     }
 }

@@ -1,19 +1,32 @@
 package commaciejprogramuje.facebook.pressure;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+
+import org.joda.time.DateTime;
+
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MeasurementActivity extends AppCompatActivity {
+    public static final String PRESSURE_1_DATA = "pressure1Data";
+    public static final String PRESSURE_2_DATA = "pressure2Data";
+    public static final String PULSE_DATA = "pulseData";
     @Bind(R.id.timeTextView)
     TextView timeTextView;
     int secondsToCount;
+
+    private static String[] tempPressure1 = {"150", "160", "170", "180", "190"};
+    private static String[] tempPressure2 = {"90", "80", "70", "60", "50"};
+    private static String[] tempPulse = {"60", "61", "62", "63", "64"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,5 +58,17 @@ public class MeasurementActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addNewMeasurement(View view) {
+        Random random = new Random();
+
+        Intent data = new Intent();
+        data.putExtra(PRESSURE_1_DATA, tempPressure1[random.nextInt(tempPressure1.length)]);
+        data.putExtra(PRESSURE_2_DATA, tempPressure2[random.nextInt(tempPressure2.length)]);
+        data.putExtra(PULSE_DATA, tempPulse[random.nextInt(tempPulse.length)]);
+
+        setResult(RESULT_OK, data);
+        finish();
     }
 }

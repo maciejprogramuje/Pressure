@@ -11,26 +11,20 @@ import java.util.Random;
  */
 
 class SingleMeasurement {
-    private DateTime date;
+    private String date;
     private String pressure1;
     private String pressure2;
     private String pulse;
 
-    private static String[] tempPressure1 = {"150", "160", "170", "180", "190"};
-    private static String[] tempPressure2 = {"90", "80", "70", "60", "50"};
-    private static String[] tempPulse = {"60", "61", "62", "63", "64"};
-
-    SingleMeasurement() {
-        date = new DateTime();
-        Random random = new Random();
-        pressure1 = tempPressure1[random.nextInt(tempPressure1.length)];
-        pressure2 = tempPressure2[random.nextInt(tempPressure2.length)];
-        pulse = tempPulse[random.nextInt(tempPulse.length)];
+    SingleMeasurement(String date, String pressure1, String pressure2, String pulse) {
+        this.date = date;
+        this.pressure1 = pressure1;
+        this.pressure2 = pressure2;
+        this.pulse = pulse;
     }
 
     String getDate() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("d/MM/yyyy, HH:mm");
-        return date.toString(dateTimeFormatter);
+        return date;
     }
 
     String getPressure1() {
