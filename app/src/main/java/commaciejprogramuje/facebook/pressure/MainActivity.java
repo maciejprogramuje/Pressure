@@ -18,7 +18,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-    public static final int REQUEST_CODE_ADD = 1;
     @Bind(R.id.measurement_history)
     RecyclerView measurementHistoryRecyclerView;
 
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    goToMeasurement();
+                    chooseTypeOfMeasurement();
                 }
             });
         }
@@ -50,22 +49,9 @@ public class MainActivity extends AppCompatActivity {
         measurementHistoryRecyclerView.setAdapter(myAdapter);
     }
 
-    private void goToMeasurement() {
-        Intent intent = new Intent(MainActivity.this, MeasurementActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_ADD);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == RESULT_OK) {
-            if(requestCode == REQUEST_CODE_ADD) {
-                myAdapter.addNewMeasurement(data.getStringExtra(MeasurementActivity.PRESSURE_1_DATA),
-                        data.getStringExtra(MeasurementActivity.PRESSURE_2_DATA),
-                        data.getStringExtra(MeasurementActivity.PULSE_DATA));
-            }
-        }
+    private void chooseTypeOfMeasurement() {
+        Intent intent = new Intent(MainActivity.this, ChooseActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -78,10 +64,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_show_archive) {
+        if (id == R.id.action_clear_all) {
+            myAdapter.clearAll();
             return true;
         } else if (id == R.id.action_add) {
-            goToMeasurement();
+            chooseTypeOfMeasurement();
             return true;
         }
 

@@ -20,13 +20,14 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static commaciejprogramuje.facebook.pressure.Measurements.measurements;
+
 /**
  * Created by m.szymczyk on 2017-07-26.
  */
 
 class MyAdapter extends RecyclerView.Adapter {
     private static final String MEASUREMENTS_J_SON = "measurementsJSon";
-    private List<SingleMeasurement> measurements = new ArrayList<>();
     private RecyclerView measurementsRecyclerView;
     private SharedPreferences sharedPreferences;
 
@@ -53,8 +54,7 @@ class MyAdapter extends RecyclerView.Adapter {
 
         Gson gson = new Gson();
         String json = sharedPreferences.getString(MEASUREMENTS_J_SON, "[]");
-        measurements = gson.fromJson(json, new TypeToken<List<SingleMeasurement>>() {}.getType());
-
+        Measurements.measurements = gson.fromJson(json, new TypeToken<List<SingleMeasurement>>() {}.getType());
         notifyDataSetChanged();
     }
 
@@ -73,7 +73,7 @@ class MyAdapter extends RecyclerView.Adapter {
         return new MyViewHolder(view);
     }
 
-    void addNewMeasurement(String pressure1, String pressure2, String pulse) {
+    public void addNewMeasurement(String pressure1, String pressure2, String pulse) {
         measurements.add(new SingleMeasurement(getCurrentDate(), pressure1, pressure2, pulse));
         notifyItemInserted(measurements.size() - 1);
         storeInPreferences();
@@ -127,5 +127,13 @@ class MyAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return measurements.size();
+    }
+
+    public void clearAll() {
+        measurements.clear();
+        notifyDataSetChanged();
+        sharedPreferences.edit()
+                .clear()
+                .apply();
     }
 }

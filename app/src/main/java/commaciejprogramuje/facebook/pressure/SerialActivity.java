@@ -9,14 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.joda.time.DateTime;
-
 import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MeasurementActivity extends AppCompatActivity {
+public class SerialActivity extends AppCompatActivity {
     public static final String PRESSURE_1_DATA = "pressure1Data";
     public static final String PRESSURE_2_DATA = "pressure2Data";
     public static final String PULSE_DATA = "pulseData";
@@ -32,7 +30,7 @@ public class MeasurementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_measurement);
+        setContentView(R.layout.activity_serial);
         ButterKnife.bind(this);
 
         secondsToCount = 10;
@@ -54,13 +52,13 @@ public class MeasurementActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(MeasurementActivity.this);
+                NavUtils.navigateUpFromSameTask(SerialActivity.this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void addNewMeasurement(View view) {
+    public void addNewMeasurementOnClick(View view) {
         Random random = new Random();
 
         Intent data = new Intent();
