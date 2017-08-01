@@ -50,9 +50,10 @@ public class MainActivity extends AppCompatActivity {
         measurementHistoryRecyclerView.setAdapter(myAdapter);
 
         Intent intent = getIntent();
-        if(intent != null) {
-            //myAdapter.addNewMeasurement(intent);
-            Log.d("INTENT", intent.toString());
+        if(intent.getStringExtra(SingleActivity.SINGLE_ACTIVITY_TEMP_PRESSURE_1) != null) {
+            myAdapter.addNewMeasurement(intent.getStringExtra(SingleActivity.SINGLE_ACTIVITY_TEMP_PRESSURE_1),
+                    intent.getStringExtra(SingleActivity.SINGLE_ACTIVITY_TEMP_PRESSURE_2),
+                    intent.getStringExtra(SingleActivity.SINGLE_ACTIVITY_TEMP_PULSE));
         }
     }
 
