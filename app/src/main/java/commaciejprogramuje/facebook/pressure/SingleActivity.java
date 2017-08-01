@@ -17,18 +17,11 @@ public class SingleActivity extends AppCompatActivity {
     }
 
     public void singleMeasurementOnClick(View view) {
-        Measurements.measurements.
-
 
         Intent data = new Intent(SingleActivity.this, MainActivity.class);
         data.putExtra(SINGLE_ACTIVITY_TEMP_PRESSURE_1, "p1");
         data.putExtra(SINGLE_ACTIVITY_TEMP_PRESSURE_2, "p2");
         data.putExtra(SINGLE_ACTIVITY_TEMP_PULSE, "tP");
-
-        https://stackoverflow.com/questions/2091465/how-do-i-pass-data-between-activities-in-android-application
-
-
         startActivity(data);
-        finish();
     }
 }

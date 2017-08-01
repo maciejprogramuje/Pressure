@@ -20,8 +20,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static commaciejprogramuje.facebook.pressure.Measurements.measurements;
-
 /**
  * Created by m.szymczyk on 2017-07-26.
  */
@@ -30,6 +28,7 @@ class MyAdapter extends RecyclerView.Adapter {
     private static final String MEASUREMENTS_J_SON = "measurementsJSon";
     private RecyclerView measurementsRecyclerView;
     private SharedPreferences sharedPreferences;
+    private List<SingleMeasurement> measurements = new ArrayList<>();
 
     //implementacja wzorca ViewHolder
     private class MyViewHolder extends RecyclerView.ViewHolder {
@@ -54,7 +53,7 @@ class MyAdapter extends RecyclerView.Adapter {
 
         Gson gson = new Gson();
         String json = sharedPreferences.getString(MEASUREMENTS_J_SON, "[]");
-        Measurements.measurements = gson.fromJson(json, new TypeToken<List<SingleMeasurement>>() {}.getType());
+        measurements = gson.fromJson(json, new TypeToken<List<SingleMeasurement>>() {}.getType());
         notifyDataSetChanged();
     }
 
@@ -107,8 +106,7 @@ class MyAdapter extends RecyclerView.Adapter {
 
     private void storeInPreferences() {
         Gson gson = new Gson();
-        String json = gson.toJson(measurements, new TypeToken<List<SingleMeasurement>>() {
-        }.getType());
+        String json = gson.toJson(measurements, new TypeToken<List<SingleMeasurement>>() { }.getType());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(MEASUREMENTS_J_SON, json);
         editor.apply();

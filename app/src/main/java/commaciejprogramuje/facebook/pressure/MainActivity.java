@@ -10,6 +10,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
         measurementHistoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         myAdapter = new MyAdapter(measurementHistoryRecyclerView, PreferenceManager.getDefaultSharedPreferences(this));
         measurementHistoryRecyclerView.setAdapter(myAdapter);
+
+        Intent intent = getIntent();
+        if(intent != null) {
+            //myAdapter.addNewMeasurement(intent);
+            Log.d("INTENT", intent.toString());
+        }
     }
 
     private void chooseTypeOfMeasurement() {
