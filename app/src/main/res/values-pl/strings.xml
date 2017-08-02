@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dzienniczek ciśnienia krwi</string>
+    <string name="add">Dodaj</string>
+    <string name="choose_type_of_measurement">Wybierz typ pomiaru</string>
+    <string name="date">data</string>
+    <string name="delete_all">Skasować wszystkie pomary?</string>
+    <string name="delete_this_line">Skasować linię?</string>
+    <string name="dia">DIA</string>
+    <string name="diastolic">Rozkurczowe:</string>
+    <string name="pulseMeasurement">Puls:</string>
+    <string name="save_measurement">Zapisz pomiar</string>
+    <string name="serial_measurement">Seria pomiarów</string>
+    <string name="single_measurement">Pojedynczy pomiar</string>
+    <string name="no">Nie</string>
+    <string name="systolic">Skurczowe:</string>
+    <string name="yes">Tak</string>
+    <string name="time_counting">Odliczanie czasu</string>
+    <string name="clear_all">Skasuj wszystko</string>
+    <string name="sys">SYS</string>
+    <string name="pulse">"puls "</string>
+</resources>

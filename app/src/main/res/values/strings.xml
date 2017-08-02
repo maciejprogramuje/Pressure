@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Blood Pressure Diary</string>
-    <string name="show_archive">Show archive</string>
     <string name="time_counting">time counting: %d</string>
     <string name="add">Add</string>
     <string name="date">date</string>
@@ -13,4 +12,10 @@
     <string name="choose_type_of_measurement">Choose type of measurement</string>
     <string name="single_measurement">Single measurement</string>
     <string name="serial_measurement">Serial Measurement</string>
+    <string name="delete_all">Delete all of measurements?</string>
+    <string name="save_measurement">Save measurement</string>
+    <string name="diastolic">Diastolic:</string>
+    <string name="pulseMeasurement">Pulse:</string>
+    <string name="systolic">Systolic:</string>
+    <string name="clear_all">clear_all</string>
 </resources>

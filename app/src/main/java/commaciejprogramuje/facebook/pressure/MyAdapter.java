@@ -1,5 +1,6 @@
 package commaciejprogramuje.facebook.pressure;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
@@ -16,7 +17,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +72,7 @@ class MyAdapter extends RecyclerView.Adapter {
         return new MyViewHolder(view);
     }
 
-    public void addNewMeasurement(String pressure1, String pressure2, String pulse) {
+    void addNewMeasurement(String pressure1, String pressure2, String pulse) {
         measurements.add(new SingleMeasurement(getCurrentDate(), pressure1, pressure2, pulse));
         notifyItemInserted(measurements.size() - 1);
         storeInPreferences();
@@ -82,26 +82,6 @@ class MyAdapter extends RecyclerView.Adapter {
         DateTime tempDate = new DateTime();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("d/MM/yyyy, HH:mm");
         return tempDate.toString(dateTimeFormatter);
-    }
-
-    private AlertDialog deleteLineAlertDialog(final View v) {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(v.getContext());
-        alertBuilder.setMessage(R.string.delete_this_line)
-                .setPositiveButton(v.getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        int positionToDelete = measurementsRecyclerView.getChildAdapterPosition(v);
-                        measurements.remove(positionToDelete);
-                        notifyItemRemoved(positionToDelete);
-                        storeInPreferences();
-                    }
-                })
-                .setNegativeButton(v.getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                });
-        return alertBuilder.create();
     }
 
     private void storeInPreferences() {
@@ -127,11 +107,50 @@ class MyAdapter extends RecyclerView.Adapter {
         return measurements.size();
     }
 
-    public void clearAll() {
-        measurements.clear();
-        notifyDataSetChanged();
-        sharedPreferences.edit()
-                .clear()
-                .apply();
+    void clearAll(Context c) {
+        deleteAllAlertDialog(c).show();
+
+    }
+
+    private AlertDialog deleteAllAlertDialog(Context c) {
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(c);
+        alertBuilder.setMessage(R.string.delete_all)
+                .setPositiveButton(c.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        measurements.clear();
+                        notifyDataSetChanged();
+                        sharedPreferences.edit()
+                                .clear()
+                                .apply();
+                    }
+                })
+                .setNegativeButton(c.getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+        return alertBuilder.create();
+    }
+
+    private AlertDialog deleteLineAlertDialog(final View v) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(v.getContext());
+        alertBuilder.setMessage(R.string.delete_this_line)
+                .setPositiveButton(v.getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        int positionToDelete = measurementsRecyclerView.getChildAdapterPosition(v);
+                        measurements.remove(positionToDelete);
+                        notifyItemRemoved(positionToDelete);
+                        storeInPreferences();
+                    }
+                })
+                .setNegativeButton(v.getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+        return alertBuilder.create();
     }
 }
