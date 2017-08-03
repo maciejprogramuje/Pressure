@@ -17,6 +17,7 @@ public class SingleActivity extends AppCompatActivity {
     public static final String SYS_INT = "sysInt";
     public static final String DIA_INT = "diaInt";
     public static final String PUL_INT = "pulInt";
+    public static final String ONLY_ONE_TIME_FLAG = "only_one_time_flag";
     @Bind(R.id.sysNp)
     NumberPicker sysNp;
     @Bind(R.id.diaNp)
@@ -49,6 +50,7 @@ public class SingleActivity extends AppCompatActivity {
         data.putExtra(SINGLE_ACTIVITY_TEMP_PRESSURE_1, String.valueOf(sysNp.getValue()));
         data.putExtra(SINGLE_ACTIVITY_TEMP_PRESSURE_2, String.valueOf(diaNp.getValue()));
         data.putExtra(SINGLE_ACTIVITY_TEMP_PULSE, String.valueOf(pulNp.getValue()));
+        data.putExtra(ONLY_ONE_TIME_FLAG, true);
         startActivity(data);
     }
 

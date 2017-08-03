@@ -12,8 +12,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -22,27 +22,42 @@
 
         <TextView
             android:id="@+id/textView7"
-            android:layout_weight="9"
+            android:layout_width="wrap_content"
             android:text="@string/date"
             style="@style/TopBar" />
 
         <TextView
+            android:layout_weight="14"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp" />
+
+        <TextView
             android:id="@+id/textView6"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:text="@string/sys"
             android:textAlignment="textEnd"
             style="@style/TopBar" />
 
         <TextView
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp" />
+
+        <TextView
             android:id="@+id/textView5"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:text="@string/dia"
             android:textAlignment="textEnd"
             style="@style/TopBar" />
 
         <TextView
-            android:id="@+id/textView4"
             android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
             android:text="@string/pulse"
             android:textAlignment="textEnd"
             style="@style/TopBar" />
