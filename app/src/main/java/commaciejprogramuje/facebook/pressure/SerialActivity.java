@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 
 public class SerialActivity extends AppCompatActivity {
     public static final String COUNT_AVG = "countAvg";
+    public static final String KEY_SECONDS_TO_COUNT = "keySecondsToCount";
     @Bind(R.id.timeTextView)
     TextView timeTextView;
     @Bind(R.id.numOfMesurementsLeftTextView)
@@ -41,7 +42,11 @@ public class SerialActivity extends AppCompatActivity {
         sumOfPulse = intent.getIntExtra(DataEntry.TEMP_AVG_PULSE, 0);
         numOfMeasurements = intent.getIntExtra(ChooseActivity.NUM_OF_MEASUREMENTS, 1);
         numOfMesurementsLeftTextView.setText(String.valueOf(numOfMeasurements));
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         sitAndWait();
     }
 
@@ -65,7 +70,8 @@ public class SerialActivity extends AppCompatActivity {
         cutDownTimer = new CountDownTimer(1000 * secondsToCount, 1000) {
             @Override
             public void onTick(long l) {
-                timeTextView.setText(l / 1000 + " " + getString(R.string.seconds));
+                secondsToCount = (int) l / 1000;
+                timeTextView.setText(secondsToCount + " " + getString(R.string.seconds));
             }
 
             @Override
@@ -84,5 +90,20 @@ public class SerialActivity extends AppCompatActivity {
         intent.putExtra(DataEntry.TEMP_AVG_PULSE, sumOfPulse);
         intent.putExtra(COUNT_AVG, true);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(KEY_SECONDS_TO_COUNT, secondsToCount);
+        cutDownTimer.cancel();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        secondsToCount = savedInstanceState.getInt(KEY_SECONDS_TO_COUNT);
     }
 }
