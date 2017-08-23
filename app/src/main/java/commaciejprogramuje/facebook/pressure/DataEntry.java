@@ -19,6 +19,9 @@ public class DataEntry extends AppCompatActivity {
     public static final String PUL_INT = "pulInt";
     public static final String ONLY_ONE_TIME_FLAG = "only_one_time_flag";
     public static final String NUM_OF_MEASUREMENTS = "NUM_OF_MEASUREMENTS";
+    public static final String TEMP_AVG_PRESSURE_1 = "temp_avg_pressure1";
+    public static final String TEMP_AVG_PRESSURE_2 = "temp_avg_pressure2";
+    public static final String TEMP_AVG_PULSE = "temp_avg_pulse";
     @Bind(R.id.sysNp)
     NumberPicker sysNp;
     @Bind(R.id.diaNp)
@@ -26,6 +29,10 @@ public class DataEntry extends AppCompatActivity {
     @Bind(R.id.pulNp)
     NumberPicker pulNp;
     int num_of_measurement;
+    int sumOfPressure1;
+    int sumOfPressure2;
+    int sumOfPulse;
+    boolean countAvg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,11 @@ public class DataEntry extends AppCompatActivity {
         pulNp.setWrapSelectorWheel(true);
 
         Intent intent = getIntent();
+        sumOfPressure1 = intent.getIntExtra(TEMP_AVG_PRESSURE_1, 0);
+        sumOfPressure2 = intent.getIntExtra(TEMP_AVG_PRESSURE_2, 0);
+        sumOfPulse = intent.getIntExtra(TEMP_AVG_PULSE, 0);
         num_of_measurement = intent.getIntExtra(ChooseActivity.NUM_OF_MEASUREMENTS, 1);
+        countAvg = intent.getBooleanExtra(SerialActivity.COUNT_AVG, false);
     }
 
     public void saveMeasurementsOnClick(View view) {
@@ -55,14 +66,24 @@ public class DataEntry extends AppCompatActivity {
 
         if(num_of_measurement == 0) {
             Intent data = new Intent(DataEntry.this, MainActivity.class);
-            data.putExtra(DATA_ENTRY_TEMP_PRESSURE_1, String.valueOf(sysNp.getValue()));
-            data.putExtra(DATA_ENTRY_TEMP_PRESSURE_2, String.valueOf(diaNp.getValue()));
-            data.putExtra(DATA_ENTRY_TEMP_PULSE, String.valueOf(pulNp.getValue()));
+            if(countAvg) {
+                data.putExtra(DATA_ENTRY_TEMP_PRESSURE_1, String.valueOf(Math.round(sysNp.getValue() + sumOfPressure1) / 3));
+                data.putExtra(DATA_ENTRY_TEMP_PRESSURE_2, String.valueOf(Math.round(diaNp.getValue() + sumOfPressure2) / 3));
+                data.putExtra(DATA_ENTRY_TEMP_PULSE, String.valueOf((pulNp.getValue() + sumOfPulse) / 3));
+            } else {
+                data.putExtra(DATA_ENTRY_TEMP_PRESSURE_1, String.valueOf(sysNp.getValue() + sumOfPressure1));
+                data.putExtra(DATA_ENTRY_TEMP_PRESSURE_2, String.valueOf(diaNp.getValue() + sumOfPressure2));
+                data.putExtra(DATA_ENTRY_TEMP_PULSE, String.valueOf(pulNp.getValue() + sumOfPulse));
+            }
+
             data.putExtra(ONLY_ONE_TIME_FLAG, true);
             startActivity(data);
         } else {
             Intent backToSerialActivity = new Intent(DataEntry.this, SerialActivity.class);
             backToSerialActivity.putExtra(NUM_OF_MEASUREMENTS, num_of_measurement);
+            backToSerialActivity.putExtra(TEMP_AVG_PRESSURE_1, sysNp.getValue() + sumOfPressure1);
+            backToSerialActivity.putExtra(TEMP_AVG_PRESSURE_2, diaNp.getValue() + sumOfPressure2);
+            backToSerialActivity.putExtra(TEMP_AVG_PULSE, pulNp.getValue() + sumOfPulse);
             startActivity(backToSerialActivity);
         }
     }

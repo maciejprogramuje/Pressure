@@ -14,6 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SerialActivity extends AppCompatActivity {
+    public static final String COUNT_AVG = "countAvg";
     @Bind(R.id.timeTextView)
     TextView timeTextView;
     @Bind(R.id.numOfMesurementsLeftTextView)
@@ -23,6 +24,9 @@ public class SerialActivity extends AppCompatActivity {
     int secondsToCount = 10;
     int numOfMeasurements;
     CountDownTimer cutDownTimer;
+    int sumOfPressure1;
+    int sumOfPressure2;
+    int sumOfPulse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,9 @@ public class SerialActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
+        sumOfPressure1 = intent.getIntExtra(DataEntry.TEMP_AVG_PRESSURE_1, 0);
+        sumOfPressure2 = intent.getIntExtra(DataEntry.TEMP_AVG_PRESSURE_2, 0);
+        sumOfPulse = intent.getIntExtra(DataEntry.TEMP_AVG_PULSE, 0);
         numOfMeasurements = intent.getIntExtra(ChooseActivity.NUM_OF_MEASUREMENTS, 1);
         numOfMesurementsLeftTextView.setText(String.valueOf(numOfMeasurements));
 
@@ -42,6 +49,7 @@ public class SerialActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                cutDownTimer.cancel();
                 NavUtils.navigateUpFromSameTask(SerialActivity.this);
                 return true;
         }
@@ -71,6 +79,10 @@ public class SerialActivity extends AppCompatActivity {
     private void dontWaitAnyLonger() {
         Intent intent = new Intent(SerialActivity.this, DataEntry.class);
         intent.putExtra(ChooseActivity.NUM_OF_MEASUREMENTS, numOfMeasurements);
+        intent.putExtra(DataEntry.TEMP_AVG_PRESSURE_1, sumOfPressure1);
+        intent.putExtra(DataEntry.TEMP_AVG_PRESSURE_2, sumOfPressure2);
+        intent.putExtra(DataEntry.TEMP_AVG_PULSE, sumOfPulse);
+        intent.putExtra(COUNT_AVG, true);
         startActivity(intent);
     }
 }
