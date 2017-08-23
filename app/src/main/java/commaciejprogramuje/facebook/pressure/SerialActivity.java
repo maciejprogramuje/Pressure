@@ -7,24 +7,22 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SerialActivity extends AppCompatActivity {
-    public static final String PRESSURE_1_DATA = "pressure1Data";
-    public static final String PRESSURE_2_DATA = "pressure2Data";
-    public static final String PULSE_DATA = "pulseData";
     @Bind(R.id.timeTextView)
     TextView timeTextView;
-    int secondsToCount;
-
-    private static String[] tempPressure1 = {"150", "160", "170", "180", "190"};
-    private static String[] tempPressure2 = {"90", "80", "70", "60", "50"};
-    private static String[] tempPulse = {"60", "61", "62", "63", "64"};
+    @Bind(R.id.numOfMesurementsLeftTextView)
+    TextView numOfMesurementsLeftTextView;
+    @Bind(R.id.cancelWaitingButton)
+    Button cancelWaitingButton;
+    int secondsToCount = 10;
+    int numOfMeasurements;
+    CountDownTimer cutDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +31,11 @@ public class SerialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_serial);
         ButterKnife.bind(this);
 
-        secondsToCount = 10;
-        CountDownTimer cutDownTimer = new CountDownTimer(1000 * secondsToCount, 1000) {
-            @Override
-            public void onTick(long l) {
-                timeTextView.setText(getString(R.string.time_counting, l / 1000));
-            }
+        Intent intent = getIntent();
+        numOfMeasurements = intent.getIntExtra(ChooseActivity.NUM_OF_MEASUREMENTS, 1);
+        numOfMesurementsLeftTextView.setText(String.valueOf(numOfMeasurements));
 
-            @Override
-            public void onFinish() {
-                finish();
-            }
-        };
-        cutDownTimer.start();
+        sitAndWait();
     }
 
     @Override
@@ -58,15 +48,29 @@ public class SerialActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addNewMeasurementOnClick(View view) {
-        Random random = new Random();
+    public void cancelWaitingButtonOnClick(View view) {
+        cutDownTimer.cancel();
+        dontWaitAnyLonger();
+    }
 
-        Intent data = new Intent();
-        data.putExtra(PRESSURE_1_DATA, tempPressure1[random.nextInt(tempPressure1.length)]);
-        data.putExtra(PRESSURE_2_DATA, tempPressure2[random.nextInt(tempPressure2.length)]);
-        data.putExtra(PULSE_DATA, tempPulse[random.nextInt(tempPulse.length)]);
+    void sitAndWait() {
+        cutDownTimer = new CountDownTimer(1000 * secondsToCount, 1000) {
+            @Override
+            public void onTick(long l) {
+                timeTextView.setText(l / 1000 + " " + getString(R.string.seconds));
+            }
 
-        setResult(RESULT_OK, data);
-        finish();
+            @Override
+            public void onFinish() {
+                dontWaitAnyLonger();
+            }
+        };
+        cutDownTimer.start();
+    }
+
+    private void dontWaitAnyLonger() {
+        Intent intent = new Intent(SerialActivity.this, DataEntry.class);
+        intent.putExtra(ChooseActivity.NUM_OF_MEASUREMENTS, numOfMeasurements);
+        startActivity(intent);
     }
 }

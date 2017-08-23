@@ -49,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
         measurementHistoryRecyclerView.setAdapter(myAdapter);
 
         Intent intent = getIntent();
-        if(intent.getBooleanExtra(SingleActivity.ONLY_ONE_TIME_FLAG, false)) {
-            myAdapter.addNewMeasurement(intent.getStringExtra(SingleActivity.SINGLE_ACTIVITY_TEMP_PRESSURE_1),
-                    intent.getStringExtra(SingleActivity.SINGLE_ACTIVITY_TEMP_PRESSURE_2),
-                    intent.getStringExtra(SingleActivity.SINGLE_ACTIVITY_TEMP_PULSE));
-            intent.putExtra(SingleActivity.ONLY_ONE_TIME_FLAG, false);
+        if(intent.getBooleanExtra(DataEntry.ONLY_ONE_TIME_FLAG, false)) {
+            myAdapter.addNewMeasurement(intent.getStringExtra(DataEntry.DATA_ENTRY_TEMP_PRESSURE_1),
+                    intent.getStringExtra(DataEntry.DATA_ENTRY_TEMP_PRESSURE_2),
+                    intent.getStringExtra(DataEntry.DATA_ENTRY_TEMP_PULSE));
+            intent.putExtra(DataEntry.ONLY_ONE_TIME_FLAG, false);
         }
     }
 

@@ -18,4 +18,10 @@
     <string name="pulseMeasurement">Pulse:</string>
     <string name="systolic">Systolic:</string>
     <string name="clear_all">clear_all</string>
+    <string name="sit_be_calm_and_wait">Sit, be calm and wait</string>
+    <string name="seconds">seconds</string>
+    <string name="cancel_waiting">Cancel waiting!</string>
+    <string name="number_of_measurements_left">Number of measurements left:</string>
+    <string name="data_entry">Data entry</string>
+
 </resources>

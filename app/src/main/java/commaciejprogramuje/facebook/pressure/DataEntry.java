@@ -10,25 +10,27 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SingleActivity extends AppCompatActivity {
-    public static final String SINGLE_ACTIVITY_TEMP_PRESSURE_1 = "tempPressure1";
-    public static final String SINGLE_ACTIVITY_TEMP_PRESSURE_2 = "tempPressure2";
-    public static final String SINGLE_ACTIVITY_TEMP_PULSE = "tempPulse";
+public class DataEntry extends AppCompatActivity {
+    public static final String DATA_ENTRY_TEMP_PRESSURE_1 = "tempPressure1";
+    public static final String DATA_ENTRY_TEMP_PRESSURE_2 = "tempPressure2";
+    public static final String DATA_ENTRY_TEMP_PULSE = "tempPulse";
     public static final String SYS_INT = "sysInt";
     public static final String DIA_INT = "diaInt";
     public static final String PUL_INT = "pulInt";
     public static final String ONLY_ONE_TIME_FLAG = "only_one_time_flag";
+    public static final String NUM_OF_MEASUREMENTS = "NUM_OF_MEASUREMENTS";
     @Bind(R.id.sysNp)
     NumberPicker sysNp;
     @Bind(R.id.diaNp)
     NumberPicker diaNp;
     @Bind(R.id.pulNp)
     NumberPicker pulNp;
+    int num_of_measurement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single);
+        setContentView(R.layout.data_entry);
         ButterKnife.bind(this);
 
         sysNp.setMinValue(40);
@@ -43,15 +45,26 @@ public class SingleActivity extends AppCompatActivity {
         sysNp.setWrapSelectorWheel(true);
         diaNp.setWrapSelectorWheel(true);
         pulNp.setWrapSelectorWheel(true);
+
+        Intent intent = getIntent();
+        num_of_measurement = intent.getIntExtra(ChooseActivity.NUM_OF_MEASUREMENTS, 1);
     }
 
-    public void singleMeasurementOnClick(View view) {
-        Intent data = new Intent(SingleActivity.this, MainActivity.class);
-        data.putExtra(SINGLE_ACTIVITY_TEMP_PRESSURE_1, String.valueOf(sysNp.getValue()));
-        data.putExtra(SINGLE_ACTIVITY_TEMP_PRESSURE_2, String.valueOf(diaNp.getValue()));
-        data.putExtra(SINGLE_ACTIVITY_TEMP_PULSE, String.valueOf(pulNp.getValue()));
-        data.putExtra(ONLY_ONE_TIME_FLAG, true);
-        startActivity(data);
+    public void saveMeasurementsOnClick(View view) {
+        num_of_measurement--;
+
+        if(num_of_measurement == 0) {
+            Intent data = new Intent(DataEntry.this, MainActivity.class);
+            data.putExtra(DATA_ENTRY_TEMP_PRESSURE_1, String.valueOf(sysNp.getValue()));
+            data.putExtra(DATA_ENTRY_TEMP_PRESSURE_2, String.valueOf(diaNp.getValue()));
+            data.putExtra(DATA_ENTRY_TEMP_PULSE, String.valueOf(pulNp.getValue()));
+            data.putExtra(ONLY_ONE_TIME_FLAG, true);
+            startActivity(data);
+        } else {
+            Intent backToSerialActivity = new Intent(DataEntry.this, SerialActivity.class);
+            backToSerialActivity.putExtra(NUM_OF_MEASUREMENTS, num_of_measurement);
+            startActivity(backToSerialActivity);
+        }
     }
 
     @OnClick({R.id.sysNp, R.id.diaNp, R.id.pulNp})

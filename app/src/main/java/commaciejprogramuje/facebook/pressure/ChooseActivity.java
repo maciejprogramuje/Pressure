@@ -7,11 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 public class ChooseActivity extends AppCompatActivity {
-
-    public static final int REQUEST_CODE_SINGLE_CHOOSE = 3;
-    public static final String CHOOSE_ACTIVITY_TEMP_PRESSURE_1 = "chooseActivityTempPressure1";
-    public static final String CHOOSE_ACTIVITY_TEMP_PRESSURE_2 = "chooseActivityTempPressure2";
-    public static final String CHOOSE_ACTIVITY_TEMP_PULSE = "chooseActivityTempPulse";
+    public static final String NUM_OF_MEASUREMENTS = "NUM_OF_MEASUREMENTS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +20,14 @@ public class ChooseActivity extends AppCompatActivity {
     }
 
     public void singleMeasurementOnClick(View view) {
-        Intent intent = new Intent(ChooseActivity.this, SingleActivity.class);
+        Intent intent = new Intent(ChooseActivity.this, DataEntry.class);
+        intent.putExtra(NUM_OF_MEASUREMENTS, 1);
         startActivity(intent);
     }
 
     public void serialMeasurementOnClick(View view) {
         Intent intent = new Intent(ChooseActivity.this, SerialActivity.class);
+        intent.putExtra(NUM_OF_MEASUREMENTS, 3);
         startActivity(intent);
     }
 }

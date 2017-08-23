@@ -27,8 +27,8 @@
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity"/>
         <activity
-            android:name=".SingleActivity"
-            android:label="@string/single_measurement"/>
+            android:name=".DataEntry"
+            android:label="@string/data_entry"/>
     </application>
 
 </manifest>
