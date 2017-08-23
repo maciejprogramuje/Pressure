@@ -28,7 +28,7 @@ class MyAdapter extends RecyclerView.Adapter {
     private static final String MEASUREMENTS_J_SON = "measurementsJSon";
     private RecyclerView measurementsRecyclerView;
     private SharedPreferences sharedPreferences;
-    private List<SingleMeasurement> measurements = new ArrayList<>();
+    private List<Measurement> measurements = new ArrayList<>();
 
     //implementacja wzorca ViewHolder
     private class MyViewHolder extends RecyclerView.ViewHolder {
@@ -53,7 +53,7 @@ class MyAdapter extends RecyclerView.Adapter {
 
         Gson gson = new Gson();
         String json = sharedPreferences.getString(MEASUREMENTS_J_SON, "[]");
-        measurements = gson.fromJson(json, new TypeToken<List<SingleMeasurement>>() {}.getType());
+        measurements = gson.fromJson(json, new TypeToken<List<Measurement>>() {}.getType());
         notifyDataSetChanged();
     }
 
@@ -73,20 +73,20 @@ class MyAdapter extends RecyclerView.Adapter {
     }
 
     void addNewMeasurement(String pressure1, String pressure2, String pulse) {
-        measurements.add(new SingleMeasurement(getCurrentDate(), pressure1, pressure2, pulse));
+        measurements.add(new Measurement(getCurrentDate(), pressure1, pressure2, pulse));
         notifyItemInserted(measurements.size() - 1);
         storeInPreferences();
     }
 
     private String getCurrentDate() {
         DateTime tempDate = new DateTime();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("d/MM/yyyy, HH:mm");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/yyyy, HH:mm");
         return tempDate.toString(dateTimeFormatter);
     }
 
     private void storeInPreferences() {
         Gson gson = new Gson();
-        String json = gson.toJson(measurements, new TypeToken<List<SingleMeasurement>>() { }.getType());
+        String json = gson.toJson(measurements, new TypeToken<List<Measurement>>() { }.getType());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(MEASUREMENTS_J_SON, json);
         editor.apply();
@@ -94,12 +94,12 @@ class MyAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        SingleMeasurement singleMeasurement = measurements.get(position);
+        Measurement measurement = measurements.get(position);
 
-        ((MyViewHolder) holder).date.setText(singleMeasurement.getDate());
-        ((MyViewHolder) holder).pressure1.setText(singleMeasurement.getPressure1());
-        ((MyViewHolder) holder).pressure2.setText(singleMeasurement.getPressure2());
-        ((MyViewHolder) holder).pulse.setText(singleMeasurement.getPulse());
+        ((MyViewHolder) holder).date.setText(measurement.getDate());
+        ((MyViewHolder) holder).pressure1.setText(measurement.getPressure1());
+        ((MyViewHolder) holder).pressure2.setText(measurement.getPressure2());
+        ((MyViewHolder) holder).pulse.setText(measurement.getPulse());
     }
 
     @Override

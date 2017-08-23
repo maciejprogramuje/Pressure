@@ -1,9 +1,9 @@
 package commaciejprogramuje.facebook.pressure;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 
 public class ChooseActivity extends AppCompatActivity {
@@ -23,11 +23,13 @@ public class ChooseActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    public void singleMeasurement(View view) {
+    public void singleMeasurementOnClick(View view) {
         Intent intent = new Intent(ChooseActivity.this, SingleActivity.class);
         startActivity(intent);
     }
 
-    public void serialMeasurement(View view) {
+    public void serialMeasurementOnClick(View view) {
+        Intent intent = new Intent(ChooseActivity.this, SerialActivity.class);
+        startActivity(intent);
     }
 }
