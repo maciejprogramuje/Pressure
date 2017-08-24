@@ -9,7 +9,7 @@
     <string name="dia">DIA</string>
     <string name="diastolic">Rozkurczowe:</string>
     <string name="pulseMeasurement">Puls:</string>
-    <string name="save_measurement">Zapisz pomiar</string>
+    <string name="save_measurement">Zapisz</string>
     <string name="serial_measurement">Seria pomiarów</string>
     <string name="single_measurement">Pojedynczy pomiar</string>
     <string name="no">Nie</string>
@@ -19,4 +19,9 @@
     <string name="clear_all">Skasuj wszystko</string>
     <string name="sys">SYS</string>
     <string name="pulse">"puls "</string>
+    <string name="cancel_waiting">Nie czekaj!</string>
+    <string name="data_entry">Wprowadzanie wyniku</string>
+    <string name="number_of_measurements_left">Liczba pozostałych pomiarów:</string>
+    <string name="seconds">sekund</string>
+    <string name="sit_be_calm_and_wait">Usiądź, wycisz się i czekaj</string>
 </resources>

@@ -13,7 +13,7 @@
     <string name="single_measurement">Single measurement</string>
     <string name="serial_measurement">Serial Measurement</string>
     <string name="delete_all">Delete all of measurements?</string>
-    <string name="save_measurement">Save measurement</string>
+    <string name="save_measurement">Save</string>
     <string name="diastolic">Diastolic:</string>
     <string name="pulseMeasurement">Pulse:</string>
     <string name="systolic">Systolic:</string>

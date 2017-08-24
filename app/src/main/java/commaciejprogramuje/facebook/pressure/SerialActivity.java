@@ -106,4 +106,10 @@ public class SerialActivity extends AppCompatActivity {
 
         secondsToCount = savedInstanceState.getInt(KEY_SECONDS_TO_COUNT);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cutDownTimer.cancel();
+    }
 }

@@ -29,8 +29,7 @@
 
             <NumberPicker
                 android:id="@+id/sysNp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                style="@style/MyNP" />
 
         </LinearLayout>
 
@@ -49,8 +48,7 @@
 
             <NumberPicker
                 android:id="@+id/diaNp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                style="@style/MyNP" />
         </LinearLayout>
 
     </LinearLayout>
@@ -77,15 +75,13 @@
 
             <NumberPicker
                 android:id="@+id/pulNp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                style="@style/MyNP" />
 
         </LinearLayout>
 
         <Button
             android:id="@+id/button"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="match_parent"
+            style="@style/myButtonStyle"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="saveMeasurementsOnClick"

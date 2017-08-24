@@ -1,6 +1,8 @@
 package commaciejprogramuje.facebook.pressure;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -39,6 +41,10 @@ public class DataEntry extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_entry);
         ButterKnife.bind(this);
+
+        setDividerColor(sysNp, R.color.colorAccent);
+        setDividerColor(diaNp, R.color.colorAccent);
+        setDividerColor(pulNp, R.color.colorAccent);
 
         sysNp.setMinValue(40);
         sysNp.setMaxValue(200);
@@ -114,5 +120,21 @@ public class DataEntry extends AppCompatActivity {
         sysNp.setValue(savedInstanceState.getInt(SYS_INT));
         diaNp.setValue(savedInstanceState.getInt(DIA_INT));
         pulNp.setValue(savedInstanceState.getInt(PUL_INT));
+    }
+
+    private void setDividerColor(NumberPicker picker, int color) {
+        java.lang.reflect.Field[] pickerFields = NumberPicker.class.getDeclaredFields();
+        for (java.lang.reflect.Field pf : pickerFields) {
+            if (pf.getName().equals("mSelectionDivider")) {
+                pf.setAccessible(true);
+                try {
+                    ColorDrawable colorDrawable = new ColorDrawable(color);
+                    pf.set(picker, colorDrawable);
+                } catch (IllegalArgumentException | IllegalAccessException | Resources.NotFoundException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
     }
 }

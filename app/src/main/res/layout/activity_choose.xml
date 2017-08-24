@@ -22,28 +22,23 @@
         android:layout_marginEnd="8dp">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/choose_type_of_measurement"
-            android:textAlignment="center"
-            android:textSize="30sp" />
+            style="@style/largeText" />
 
         <Button
             android:id="@+id/singleBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="singleMeasurementOnClick"
-            android:text="@string/single_measurement" />
+            android:text="@string/single_measurement"
+            style="@style/myButtonStyle"/>
 
         <Button
             android:id="@+id/serialBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="serialMeasurementOnClick"
-            android:text="@string/serial_measurement" />
+            android:text="@string/serial_measurement"
+            style="@style/myButtonStyle"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
