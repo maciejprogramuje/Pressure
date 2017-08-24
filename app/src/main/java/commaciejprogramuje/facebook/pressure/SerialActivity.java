@@ -22,7 +22,7 @@ public class SerialActivity extends AppCompatActivity {
     TextView numOfMesurementsLeftTextView;
     @Bind(R.id.cancelWaitingButton)
     Button cancelWaitingButton;
-    int secondsToCount = 10;
+    int secondsToCount = 60;
     int numOfMeasurements;
     CountDownTimer cutDownTimer;
     int sumOfPressure1;
